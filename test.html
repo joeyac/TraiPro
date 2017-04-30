@@ -1,0 +1,32 @@
+<div style="width:960px;margin:auto"><h1>Resource Archiver</h1></div><div style="width:960px;margin:auto"><span id="crawlSuccess" style="display: inline;"class="crawlInfo"><b>Time Limit:</b><span id="timeLimit"> 10000 ms</span>&nbsp;&nbsp;&nbsp;&nbsp;<b>Memory Limit:</b><span id="memoryLimit">100000 kB</span>&nbsp;&nbsp;&nbsp;&nbsp;<b>64bit IO Format:</b><span id="_64IOFormat">Windows</span></span></div><div style="width:960px;margin:auto"><div style="display: block;"><h2></h2><div class="textBG">
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: { inlineMath: [['$','$'],['\[','\]']] } });
+ </script>
+ <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+ </script>
+ <script type="text/javascript">
+  setTimeout(function(){MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'left_view']);}, 2000);
+ </script>
+ <div class="panel_content">
+  Great! Your new software is almost finished! The only thing left to do is archiving all your n resource files into a big one.
+  <br/>
+  Wait a minute… you realized that it isn’t as easy as you thought. Think about the virus killers. They’ll find your software suspicious, if your software contains one of the m predefined virus codes. You absolutely don’t want this to happen.
+  <br/>
+  Technically, resource files and virus codes are merely 01 strings. You’ve already convinced yourself that none of the resource strings contain a virus code, but if you make the archive arbitrarily, virus codes can still be found somewhere.
+  <br/>
+  Here comes your task (formally): design a 01 string that contains all your resources (their occurrences can overlap), but none of the virus codes. To make your software smaller in size, the string should be as short as possible.
+ </div>
+</</div></div><div style="display: block;"><h2>Input</h2><div class="textBG">
+ There will be at most 10 test cases, each begins with two integers in a single line: n and m (2 &lt;= n &lt;= 10, 1 &lt;= m &lt;= 1000). The next n lines contain the resources, one in each line. The next m lines contain the virus codes, one in each line. The resources and virus codes are all non-empty 01 strings without spaces inside. Each resource is at most 1000 characters long. The total length of all virus codes is at most 50000. The input ends with n = m = 0.
+</</div></div><div style="display: block;"><h2>Output</h2><div class="textBG">
+ For each test case, print the length of shortest string.
+</</div></div><div style="display: block;"><h2>Sample Input</h2><div class="textBG">
+ <pre>2 2
+1110
+0111
+101
+1001
+0 0</pre>
+</</div></div><div style="display: block;"><h2>Sample Output</h2><div class="textBG">
+ <pre>5</pre>
+</</div></div></body></html>
