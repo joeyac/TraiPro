@@ -145,14 +145,25 @@ class HistoryAdmin(admin.ModelAdmin):
 
 class TeamAdmin(admin.ModelAdmin):
     list_display = ('name', )
+    filter_horizontal = ('members', )
 
 
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('name', )
+    filter_horizontal = ('teams',)
 
 
 class AssignmentAdmin(admin.ModelAdmin):
-    list_display = ('contest', 'date')
+    list_display = ('_contest', 'date')
+    filter_horizontal = ('problems', 'groups')
+    # filter_vertical = ('groups', )
+
+    def _contest(self, obj):
+        # html = '<a href="%s%s">%s</a>' % ('http://url-to-prepend.com/', obj.url_field, obj.url_field)
+        return obj.contest
+
+    _contest.short_description = 'Contest Name'
+    _contest.admin_order_field = 'contest'
 
 admin.site.register(Member, MemberAdmin)
 admin.site.register(Problem, ProblemAdmin)
