@@ -8,14 +8,15 @@ import time
 class Command(BaseCommand):
     def add_arguments(self, parser):
         # Positional arguments
-        parser.add_argument('--vid', type=int)
+        parser.add_argument('--vid', default=1, type=int)
+        parser.add_argument('--oj', default="", type=str)
 
-        # Named (optional) arguments
+    # Named (optional) arguments
         parser.add_argument('--all',
-                            action='store_true',
-                            dest='all',
-                            default=False,
-                            help="Update all problems' solved and submitted info in databases.")
+                        action='store_true',
+                        dest='all',
+                        default=False,
+                        help="Update all problems' solved and submitted info in databases.")
 
     def handle(self, **options):
         def process(problem):
@@ -34,28 +35,28 @@ class Command(BaseCommand):
                     problem.ac_rate = ac_rate
                 problem.save(update_fields=['submitted', 'solved', 'ac_rate'])
                 self.stdout.write('Successfully update problem "%s"' % problem.__unicode__())
-		return True
+                return True
             except Problem.DoesNotExist:
                 raise CommandError('Problem [pid:%s] does not exist' % vid)
             except Exception as e:
-		self.stdout.write('Problem [pid:%s] error' % vid)
-		return False
+                self.stdout.write('Problem [pid:%s] error' % vid)
+                return False
                 # raise CommandError('Unknown error, please contact crazyX :"%s"' % e)
 
         if not options['all'] or not options['vid']:
             raise CommandError('too few arguments: --all and --vid at lease one.')
         # if options['all']:
-        problems = Problem.objects.all().filter(vid__gte=options['vid'])
+        problems = Problem.objects.all()
+        if options['vid'] > 1:
+            problems = problems.filter(vid__gte=options['vid'])
+        if options['oj']:
+            problems = problems.filter(oj__iexact=options['oj'])
         for item in problems:
             flag = process(item)
             while not flag:
                 time.sleep(3)
                 flag = process(item)
-        # else:
-        #     for vid in options['vid']:
-        #         item = Problem.objects.get(vid=vid)
-        #         process(item)
-
-
-
-
+                # else:
+                #     for vid in options['vid']:
+                #         item = Problem.objects.get(vid=vid)
+                #         process(item)

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import html5lib
-import urllib, urllib2, cookielib
+import urllib
+import urllib2
+import cookielib
+import re
 import json
 import sys
 reload(sys)
@@ -103,7 +106,7 @@ class Vjudge:
         :rtype: list of dict, single problem‘s desc,input,output and so on
         """
         url = Vjudge.desc_url.format(desc_id=desc_id, desc_version=desc_version)
-        page = self.opener.open(url, timeout=5)
+        page = self.opener.open(url, timeout=10)
         soup = BeautifulSoup(page, 'html5lib')
 
         desc = soup.find('div', {'class': 'container'})
@@ -156,15 +159,17 @@ class Vjudge:
         page = self.opener.open(request)
         html = page.read()
 
-        desc_str = '<a href="/problem/description/'
-        start = html.find(desc_str) + len(desc_str)
-        end = html.find('" target="_blank">')
-        html = html[start:end-1]
-        ques = html.find('?')
-        desc_id = html[:ques]
-        desc_version = html[ques+1:]
-        desc = self.get_desc(desc_id, desc_version)
+        p = re.compile(r'<a href="/problem/description/\d+\?\d+" target="_blank">')
 
+        p_data = p.findall(html)[0]
+        len_1 = len('<a href="/problem/description/')
+        len_2 = len('" target="_blank">')
+        qus = p_data.find('?')
+        desc_id = p_data[len_1:qus]
+        # print desc_id
+        desc_version = p_data[len_1 + len(desc_id) + 1:-len_2]
+        # print desc_version
+        desc = self.get_desc(desc_id, desc_version)
         res['desc'] = desc
         return res
 
@@ -222,4 +227,6 @@ def get_problem(oj_name, problem_id):
 if __name__ == '__main__':
     v = Vjudge()
     v.login('traipro', 'letter_traipro')
-    dat = v.get_problem_info('CodeForces','792G')
+    dat = v.get_problem_info('CodeForces','1A')
+    print dat
+

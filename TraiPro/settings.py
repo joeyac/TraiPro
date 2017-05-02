@@ -25,6 +25,10 @@ SECRET_KEY = '^y6mgh0$+vq&&rc&8^pnnn$*xs0jv$tw#lbff(h3-521-6*l0q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# seucrity setting:
+# SESSION_COOKIE_AGE = 3600
+# SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_COOKIE_SECURE = False
 ALLOWED_HOSTS = ['*']
 
 MAX_UPLOAD_SIZE = "429916160"

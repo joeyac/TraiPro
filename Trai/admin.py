@@ -10,6 +10,7 @@ from django.contrib.admin.helpers import ActionForm
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.db.models.functions import Length
 # http://awesome-django.com/#awesome-django-admin-interface
 
 
@@ -90,6 +91,10 @@ class ProblemAdmin(SummernoteModelAdmin):
     list_display = ('vid', 'oj', 'pid', 'title', 'submitted', 'solved', 'ac_rate', 'difficulty', 'valid', 'info_date')
     list_filter = ('oj', 'valid', ProblemFilter, ProblemFilter2)
     actions = ['make_problem_assignment']
+
+    def get_queryset(self, request):
+        qs = super(ProblemAdmin, self).get_queryset(request)
+        return qs.annotate(pid_len=Length('pid')).order_by('oj', 'pid_len', 'pid')
 
     class AssignmentForm(forms.Form):
         _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)

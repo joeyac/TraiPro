@@ -47,6 +47,8 @@ class Problem(models.Model):
     info_date = models.DateTimeField(auto_now=True)  # 添加或者修改的时间
 
 
+
+
 class History(models.Model):
     solve_date = models.DateTimeField(auto_created=True)
     member = models.ForeignKey(Member, on_delete=models.CASCADE)  # 级联删除
