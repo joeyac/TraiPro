@@ -90,6 +90,8 @@ class ProblemAdmin(SummernoteModelAdmin):
     model = Problem
     list_display = ('vid', 'oj', 'pid', 'title', 'submitted', 'solved', 'ac_rate', 'difficulty', 'valid', 'info_date')
     list_filter = ('oj', 'valid', ProblemFilter, ProblemFilter2)
+    search_fields = ('oj', 'pid', 'title',)
+
     actions = ['make_problem_assignment']
 
     def get_queryset(self, request):
